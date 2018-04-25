@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+
+  <style>
+    #wrapper {
+      padding: 10px
+    }
+
+    .buttons::after {
+      content: '';
+      display: block;
+      clear: both
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    .right {
+      float: right
+    }
+
+    .form-group {
+      margin: 15px 0;
+    }
+
+      .form-group textarea {
+        width: 100%;
+      }
+
+      .form-group label {
+        cursor: pointer;
+      }
+
+    a.active {
+      text-decoration: underline;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.min.js"></script>
+  <script src="https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js"></script>
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+    <section>
+      <div class="form-group">
+        <label for="str">Input string</label>
+        <input id="str" type="text" placeholder="String to be hashed" v-model="str">
+      </div>
+
+      <div class="form-group">
+        <input type="checkbox" id="caseMatter" v-model="caseMatter">
+        <label for="caseMatter">Case sensitive?</label>
+      </div>
+      <hr>
+      
+      <div class="form-group">
+          <input type="radio" id="md5" value="md5" v-model="alg">
+          <label for="md5">Md5</label>
+          <br>
+          <input type="radio" id="sha1" value="sha1" v-model="alg">
+          <label for="sha1">Sha1</label>
+          <br>
+          <input type="radio" id="sha256" value="sha256" v-model="alg">
+          <label for="sha256">Sha256</label>
+          <br>
+          <input type="radio" id="sha512" value="sha512" v-model="alg">
+          <label for="sha512">Sha512</label>
+          <br>
+      </div>
+    </section>
+
+    <section class="buttons">
+      <button class="button" type="button" v-on:click="get">Get &#62;</button>
+      <button class="button" type="button" v-on:click="clear">Clear</button>
+
+      <button class="button action right" v-on:click="set">&#60; Set</button>
+    </section>
+
+
+  </div>
+
+
+  <script>
+
+
+    var app = new Vue({
+      el: '#wrapper',
+      data: {
+        str: '',
+        alg: 'md5',
+        caseMatter: false
+      },
+      methods: {
+
+        errorAlert: function (msg, el, title) {
+          console.error(msg, el ? el : '');
+          google.script.run.withSuccessHandler(function () { return }).withFailureHandler(this.errorAlert).error(msg, title);
+        },
+
+        clear: function () {
+          return this.str = '';
+        },
+
+        get: function () {
+          var _this = this;
+          google.script.run
+            .withSuccessHandler(function (data) {
+              return _this.str = data;
+            })
+            .withFailureHandler(this.errorAlert)
+            .get();
+        },
+
+        set: function () {
+          let hashedStr = this.str;
+          if(!this.caseMatter) hashedStr = hashedStr.toLowerCase();
+
+          switch (this.alg) {
+
+            case 'md5':
+              hashedStr = KJUR.crypto.Util.md5(hashedStr);
+              break;
+              
+            case 'sha1':
+              hashedStr = KJUR.crypto.Util.sha1(hashedStr);
+              break;
+              
+            case 'sha256':
+              hashedStr = KJUR.crypto.Util.sha256(hashedStr);
+              break;
+              
+            case 'sha512':
+              hashedStr = KJUR.crypto.Util.sha512(hashedStr);
+              break;
+
+            default:
+              break;
+          }
+
+
+          google.script.run
+            .withSuccessHandler(function () { return })
+            .withFailureHandler(this.errorAlert)
+            .set(hashedStr);
+        }
+
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    
+    <style>
+        .buttons::after{content:'';display:block;clear:both}#wrapper{padding:10px}.right{float:right}button{cursor:pointer}
+        .form-group {margin: 15px 0;}.form-group textarea {width:100%;}
+        a.active{text-decoration:underline;}
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.min.js"></script>
+  </head>
+  <body>
+
+        <div id="wrapper">
+            
+            <section class="functions-list" v-if="!fun">
+                <ul style="list-style: none; margin: 0; padding: 0;">
+                    <p v-if="!funs">Loading ...</p>
+                    <li v-if="funs" v-for="item in funs">
+                        <h3 style="margin-bottom: 5px;"><a href="javascript:void(0)" v-on:click="fun=item"><strong>{{ item.title }}</strong></a></h3>
+                        <p style="margin-top: 0;">{{ item.description }}</p>
+                    </li>
+                </ul>
+            </section>
+
+
+            <section class="functions-detail" v-if="fun">
+                <a href="javascript:void(0)" v-on:click="fun=null">Back</a>
+                <article v-html="fun.content" style="margin-top: 30px;"></article> 
+            </section>
+            
+    
+        </div>
+    
+    
+    
+        <script>
+    
+    
+            var app = new Vue({
+                el: '#wrapper',
+                data: {
+                    funs: null,
+                    fun: null                    
+                },
+                methods: {
+    
+                    errorAlert: function (msg, el, title) {
+                        console.error(msg, el ? el: '');
+                        google.script.run.withSuccessHandler(function () {return}).withFailureHandler(this.errorAlert).error(msg, title);
+                    },
+
+                    loadFunctions: function() {
+                        var _this = this;
+                        google.script.run
+                            .withSuccessHandler(function (funs) {                                
+                                _this.funs = funs;
+                            })
+                            .withFailureHandler(this.errorAlert)
+                            .get('1W3-n-dEirlvL5G0mieI_iXt0OMMe99O5AwUuTlLhgmI', 'functions!A1:E');
+                    }
+                    
+                }
+            });
+
+            app.loadFunctions();
+    
+        </script>
+  </body>
+</html>

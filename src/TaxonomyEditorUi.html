@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+
+    <style>
+        .buttons::after{content:'';display:block;clear:both}#wrapper{padding:10px}.right{float:right}button{cursor:pointer}
+        .form-group {margin: 15px 0;}.form-group textarea, .form-group input {width:100%;}a.active{text-decoration:underline;}
+        .form-group.has-button input{display:inline-block;margin-right:0!important;width:calc(100% - 40px)}.form-group.has-button a{display:inline-block;padding:1px 5px;border:1px solid #DCDCDC;background:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);border-radius:2px;text-decoration:none;color:#000}
+        .term-container ul {list-style: none; border:1px solid #d9d9d9; padding: 20px 20px 20px 40px;}
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.min.js"></script>
+</head>
+
+<body>
+
+
+    <div id="wrapper">
+
+        <div v-if="taxonomies.length<1">
+            <h3>Load Taxonomies/Terms</h3>
+            <div class="tabs">
+                <div class="tab-header">
+                    <a href="javascript:;" v-bind:class="{ active: tab==1 }" v-on:click="changeTab(1)">Home</a> &middot; 
+                    <a href="javascript:;" v-bind:class="{ active: tab==2 }" v-on:click="changeTab(2)">Load Taxonomies</a> &middot; 
+                    <a href="javascript:;" v-bind:class="{ active: tab==3 }" v-on:click="changeTab(3)">Load Terms</a>
+                </div>
+                <div class="tab" v-if="tab==1">
+                    <p v-if="taxonomiesFromMetaStatus=='loading'">Loading ...</p>
+                    <div v-if="taxonomiesFromMetaStatus=='unavailable'">
+                        <p>There is no "<em>__taxonomy__</em>" sheet, or no Taxonomies found, or something wrong. <a href="https://github.com/thuviencodoc/ssdb-tools#taxonomy-editor" target="_blank">What this?</a>.</p>
+                    </div>
+                    <div v-if="taxonomiesFromMetaStatus=='available'">
+                        <p>Taxonomies found in "<em>__taxonomy__</em>" sheet, click "<b>Load</b>" to see.</p>
+                        <div class="buttons">
+                            <button type="button" v-on:click="loadFromMeta">Load</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab" v-if="tab==2">
+                    <div class="form-group has-button">
+                        <label for="config-id">Spreadsheet ID (required)</label>
+                        <input id="config-id" placeholder="Spreadsheet of Taxonomies" v-model="spreadsheetId" />
+                        <a href="javascript:;" v-on:click="getId('spreadsheetId')">&gt;&middot;&lt;</a>
+                    </div>
+                    <div class="form-group">
+                        <label for="config-range">Range</label>
+                        <input id="config-range" style="width:120px;" placeholder="Enter the Range" v-model="sheetRange" />
+                    </div>
+                    <div class="buttons">
+                        <button type="button" v-on:click="loadFromSheet">Load</button>
+                    </div>
+                </div>
+                <div class="tab" v-if="tab==3">
+                    <div class="form-group has-button">
+                        <label for="tax-id">Spreadsheet ID (required)</label>
+                        <input id="tax-id" placeholder="Spreadsheet of Terms" v-model="taxonomyId"/>
+                        <a href="javascript:;" v-on:click="getId('taxonomyId')">&gt;&middot;&lt;</a>
+                    </div>
+                    <div class="inline form-group">
+                        <label for="tax-range">Range</label>
+                        <input id="tax-range" placeholder="Enter the Range" v-model="taxonomyRange" />
+                    </div>
+                    <div class="inline form-group">
+                        <label for="tax-key">Key field</label>
+                        <input id="tax-key" placeholder="Enter the Key" v-model="taxonomyKey" />
+                    </div>
+                    <div class="buttons">
+                        <button type="button" v-on:click="loadFromInput">Load</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="taxonomies.length>0">
+            <a href="javascript:;" v-on:click="resetTaxonomies">Back: Load Taxonomies/Terms</a>
+        </div>
+
+        <div v-if="taxonomies.length>0">
+            <hr>
+            <h3>Modify Terms</h3>
+                
+            <div class="block form-group">
+                <select id="tax-selecter" v-on:change="loadTerms" v-model="selectedOption">
+                    <option value="0" selected>Select the Taxonomy</option>
+                    <option v-for="item in taxonomies" v-bind:value="item.$key">{{item.title||item.name}}</option>
+                </select>
+                <button type="button" v-if="selectedTax.id" v-on:click="viewSpreadsheet(selectedTax.id)">View</button>
+            </div>
+    
+            <div class="term-container" v-if="selectedOption!='0'">
+                <ul>
+                    <li v-for="item in terms">
+                        <input type="checkbox" v-bind:id="item.key" v-model="item.selected">
+                        <label v-bind:for="item.key">{{item.title}}</label>
+                    </li>
+                </ul>
+                <div class="buttons">
+                    <button type="button" v-on:click="mapTerms">Get &#62;</button>
+                    <button class="action right" type="button" v-on:click="setTerms">&#60; Set</button>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+
+    <script>
+
+        // app
+        var app = null;
+
+        // init meta lookup
+        var metaLookupInterval = setInterval(function () {
+            if(app) {
+                app.loadFromMeta();
+                clearTimeout(metaLookupInterval)
+            }
+        }, 1000);
+        setTimeout(function () {clearTimeout(metaLookupInterval)}, 5000);
+
+        // 
+        app = new Vue({
+            el: '#wrapper',
+            data: {
+                tab: 1,
+                
+                // from meta
+                taxonomiesFromMetaStatus: 'loading',
+                
+                // from external
+                spreadsheetId: '',
+                sheetRange: 'taxonomy!A:A',
+                
+                // load terms
+                taxonomyId: '',
+                taxonomyRange: 'basic!B1:C',
+                taxonomyKey: 'id',
+                
+                // tax
+                taxonomies: [],
+                taxonomiesObject: {},
+                selectedOption: '0',
+                selectedTax: {},
+
+                // term
+                terms: []
+            },
+            methods: {
+
+                errorAlert: function (msg, el, title) {
+                    console.error(msg, el ? el: '');
+                    google.script.run.withSuccessHandler(function () {return}).withFailureHandler(this.errorAlert).error(msg, title);
+                },
+
+                changeTab: function (tab) {
+                    return this.tab = tab;
+                },
+
+
+
+                getId: function (prop) {
+                    var _this = this;
+                    google.script.run
+                        .withSuccessHandler(function (data) {
+                            switch(prop) {
+                                case 'spreadsheetId':
+                                    _this.spreadsheetId = data;
+                                break;
+                                case 'taxonomyId':
+                                    _this.taxonomyId = data;
+                                break;
+                            }
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get();
+                },
+
+                loadFromMeta: function () {
+                    this.selectedOption = '0';
+                    
+                    var _this = this;                    
+                    google.script.run
+                        .withSuccessHandler(function (data) {
+                            if((data||[]).length > 0) {
+                                _this.taxonomiesFromMetaStatus = 'available';
+    
+                                var taxs = [];
+                                for (var i = 0; i < data.length; i++) { var item = data[i];
+                                    var taxonomy = null;
+
+                                    try {
+                                        taxonomy = JSON.parse(item.value);
+                                    } catch (error) {}
+
+                                    if(taxonomy) {
+                                        taxonomy['$key'] = btoa(item.value);
+                                        _this.taxonomiesObject[taxonomy['$key']] = taxonomy;
+                                        taxs.push(taxonomy);
+                                    }    
+                                }
+
+                                if(taxs.length > 0) return _this.taxonomies = taxs;
+                            }
+                            
+                            _this.taxonomiesFromMetaStatus = 'unavailable';
+                            _this.tab = 2;
+                        })
+                        .withFailureHandler(function (data) {
+                            _this.taxonomiesFromMetaStatus = 'unavailable';
+                            _this.tab = 2;
+                        })
+                        .get(null, '__taxonomy__!A:A', true);
+                },
+
+                loadFromSheet: function () {
+                    if(!this.spreadsheetId || !this.sheetRange) return this.errorAlert('Please, enter valid Spreadsheet Id and range data.', null, 'Bad input!');
+                    
+                    this.selectedOption = '0';
+                    
+                    var _this = this;                    
+                    google.script.run
+                        .withSuccessHandler(function (data) {
+                            var taxs = [];
+                            for (var i = 0; i < data.length; i++) { var item = data[i];
+                                var taxonomy = JSON.parse(item.value);
+
+                                taxonomy['$key'] = btoa(item.value);
+                                _this.taxonomiesObject[taxonomy['$key']] = taxonomy;
+                                taxs.push(taxonomy);
+                            }
+                            _this.taxonomies = taxs;
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get(this.spreadsheetId, this.sheetRange, true);
+                },
+
+                loadFromInput: function () {
+                    var taxonomy = {
+                        id: this.taxonomyId,
+                        title: 'Taxonomy',
+                        range: this.taxonomyRange,
+                        key: this.taxonomyKey
+                    };
+                    
+                    taxonomy['$key'] = btoa(JSON.stringify(taxonomy));
+                    this.taxonomiesObject[taxonomy['$key']] = taxonomy;
+                    this.taxonomies = [taxonomy];
+
+                    this.selectedOption = taxonomy['$key'];
+
+                    return this.loadTerms();
+                },
+
+                resetTaxonomies: function () {
+                    return this.taxonomies = [];
+                },
+
+                loadTerms: function () {
+                    if(this.selectedOption == '0') return;
+                    this.terms = []; // reset terms
+
+                    this.selectedTax = this.taxonomiesObject[this.selectedOption];
+
+                    var _this = this;
+                    google.script.run
+                        .withSuccessHandler(function (terms) {
+                            var tms = [];
+                            for(var i = 0; i < terms.length; i++) { var term = terms[i];
+                                term.selected = false;
+                                tms.push(term);
+                            }
+                            _this.terms = tms;
+                            _this.mapTerms();
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get(this.selectedTax.id, this.selectedTax.range || 'basic!B1:C');
+                },
+
+                mapTerms: function () {
+                    var selectedTaxonomy = this.taxonomiesObject[this.selectedOption];
+                    
+                    var _this = this;
+                    google.script.run
+                        .withSuccessHandler(function (data) {
+                            var tms = {};
+                            try {
+                                tms = JSON.parse(data);
+                            } catch (e) {}
+                            
+                            for (var i = 0; i < _this.terms.length; i++) {
+                            _this.terms[i].selected = false;
+                            }
+                            
+                            for(let key in tms) {
+                                for (var i = 0; i < _this.terms.length; i++) { var term = _this.terms[i];
+                                    if(term[selectedTaxonomy.key || 'id'] === key) _this.terms[i].selected = true;                                    
+                                }
+                            }
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get();
+                },
+
+                setTerms: function () {                    
+                    var result = {};
+
+                    var selectedTaxonomy = this.taxonomiesObject[this.selectedOption];
+
+                    for (var i = 0; i < this.terms.length; i++) { var term = this.terms[i];
+                        if(term.selected) {
+                            result[term[selectedTaxonomy.key || 'id']] = term.title || term.name || 'Untitled';
+                        }
+                    }
+                    if(Object.keys(result).length < 1) return;
+                    google.script.run
+                        .withSuccessHandler(function () {return})
+                        .withFailureHandler(this.errorAlert)
+                        .set(JSON.stringify(result));
+                },
+                
+                viewSpreadsheet: function (id) {
+                    window.open('https://docs.google.com/spreadsheets/d/'+ id +'/view');
+                }
+                
+            }
+        });
+
+    </script>
+</body>
+
+</html>

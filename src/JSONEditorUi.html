@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.6.0/jsoneditor.min.css" />
+
+    <style>
+        .top,.top-left,.top-right{top:0;position:absolute}body{color:#222;font:13px/18px arial,sans-serif;margin:0}.sidebar{-moz-box-sizing:border-box;box-sizing:border-box;overflow-y:auto;padding:12px;position:absolute;width:100%}.block{display:block}.gg-button,.inline{display:inline-block}.block+.block{margin-top:16px}.inline+.inline{margin-left:12px}.top-right{right:0}.bottom,.bottom-left,.gg-button-bar{bottom:0;position:absolute}.bottom-right,.gg-button-bar-right{bottom:0;position:absolute;right:0}h1,h2,h3,h4,h5,h6{color:#000;font:16px/24px arial,sans-serif normal}a{color:#15c;cursor:pointer;text-decoration:none}.current,.error{color:#dd4b39}a:hover{text-decoration:underline}.current{font-weight:700}.gray,.grey{color:#777}.secondary,.small{color:#777;font:11px/16px arial,sans-serif}.gg-button{background:-moz-linear-gradient(top,#f5f5f5,#f1f1f1);background:-ms-linear-gradient(top,#f5f5f5,#f1f1f1);background:-o-linear-gradient(top,#f5f5f5,#f1f1f1);background:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);background:linear-gradient(top,#f5f5f5,#f1f1f1);border:1px solid #dcdcdc;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;color:#333;cursor:default;font-family:arial,sans-serif;font-size:11px;font-weight:700;height:29px;line-height:27px;margin:0;min-width:72px;outline:0;text-align:center;white-space:nowrap;box-sizing:border-box;padding:0}.gg-button.action{background:-moz-linear-gradient(top,#4d90fe,#4787ed);background:-ms-linear-gradient(top,#4d90fe,#4787ed);background:-o-linear-gradient(top,#4d90fe,#4787ed);background:-webkit-linear-gradient(top,#4d90fe,#4787ed);background:linear-gradient(top,#4d90fe,#4787ed);border:1px solid #3079ed;color:#fff}.gg-button:hover{background:-moz-linear-gradient(top,#f8f8f8,#f1f1f1);background:-ms-linear-gradient(top,#f8f8f8,#f1f1f1);background:-o-linear-gradient(top,#f8f8f8,#f1f1f1);background:-webkit-linear-gradient(top,#f8f8f8,#f1f1f1);background:linear-gradient(top,#f8f8f8,#f1f1f1);border:1px solid #c6c6c6;color:#111;text-decoration:none}.gg-button.action:hover{background:-moz-linear-gradient(top,#4d90fe,#357ae8);background:-ms-linear-gradient(top,#4d90fe,#357ae8);background:-o-linear-gradient(top,#4d90fe,#357ae8);background:-webkit-linear-gradient(top,#4d90fe,#357ae8);background:linear-gradient(top,#4d90fe,#357ae8);border:1px solid #2f5bb7;color:#fff}.gg-button:focus{-moz-box-shadow:inset 0 0 0 1px #fff;-webkit-box-shadow:inset 0 0 0 1px #fff;box-shadow:inset 0 0 0 1px #fff}.gg-button:active{background:-moz-linear-gradient(top,#f8f8f8,#f1f1f1);background:-ms-linear-gradient(top,#f8f8f8,#f1f1f1);background:-o-linear-gradient(top,#f8f8f8,#f1f1f1);background:-webkit-linear-gradient(top,#f8f8f8,#f1f1f1);background:linear-gradient(top,#f8f8f8,#f1f1f1);border:1px solid #ccc;-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);box-shadow:inset 0 1px 2px rgba(0,0,0,.1);color:#111}.gg-button.action:active{background:#357ae8;border:1px solid #2f5bb7;-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);box-shadow:inset 0 1px 2px rgba(0,0,0,.3);color:#fff}.gg-button.disabled{background:#fff;border:1px solid #dcdcdc;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;color:#333;opacity:.5}.gg-button.action.disabled{background:-moz-linear-gradient(top,#4d90fe,#4787ed);background:-ms-linear-gradient(top,#4d90fe,#4787ed);background:-o-linear-gradient(top,#4d90fe,#4787ed);background:-webkit-linear-gradient(top,#4d90fe,#4787ed);background:linear-gradient(top,#4d90fe,#4787ed);border:1px solid #3079ed;color:#fff}.gg-button+.gg-button{margin-left:12px}
+
+        body{padding:5px}.buttons{padding:10px 0;clear:both}.buttons #set-json{float:right}button{cursor:pointer}
+    </style>
+</head>
+
+<body>
+
+    <div id="jsoneditor" style="width: 100%; height: 350px;"></div>
+
+    <div class="buttons">
+        <button class="gg-button" type="button" onclick="getJSON();">Get &#62;</button>
+
+        <button class="gg-button" type="button" onclick="clearJSON();">Clear</button>
+
+        <button id="set-json" class="gg-button action" type="button" onclick="setJSON();">&#60; Set</button>
+    </div>
+
+    <div>
+        <p>View and edit content as JSON.</p>
+        <ul>
+            <li>
+                <b>SET</b>: edit the JSON data in the Editor then save it to the active cell.</li>
+            <li>
+                <b>GET</b>: view the JSON in active cell.</li>
+            <li>
+                <b>CLEAR</b>: clear the Editor.</li>
+        </ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.6.0/jsoneditor.min.js"></script>
+    <script>
+        // create the editor
+        var container = document.getElementById("jsoneditor");
+        var editor = new JSONEditor(container);
+
+        // error
+        function errorAlert(msg, el, title) {
+            console.error(msg, el ? el: '');
+            google.script.run.withSuccessHandler(function () {return}).withFailureHandler(errorAlert).error(msg, title);
+        }
+
+
+
+        // clear
+        function clearJSON() {
+            return editor.set({});
+        }
+
+
+
+        // get JSON
+        function getJSON() {
+            google.script.run
+                .withSuccessHandler(function (jsonText) {
+
+                    try {
+                        editor.setText(jsonText);
+                    } catch (e) {
+                        return errorAlert('Look like your data is not a valid JSON.', null, 'Bad JSON!');
+                    }
+
+                })
+                .withFailureHandler(errorAlert)
+                .get();
+        }
+
+
+
+        // set json
+        function setJSON() {
+            var jsonText = editor.getText();
+            
+            google.script.run
+                .withSuccessHandler(function () {return})
+                .withFailureHandler(errorAlert)
+                .set(jsonText);
+
+        }
+
+    </script>
+</body>
+
+</html>

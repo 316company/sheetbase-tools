@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+
+    <style>
+        .top,.top-left,.top-right{top:0;position:absolute}body{color:#222;font:13px/18px arial,sans-serif;margin:0}.sidebar{-moz-box-sizing:border-box;box-sizing:border-box;overflow-y:auto;padding:12px;position:absolute;width:100%}.block{display:block}.gg-button,.inline{display:inline-block}.block+.block{margin-top:16px}.inline+.inline{margin-left:12px}.top-right{right:0}.bottom,.bottom-left,.gg-button-bar{bottom:0;position:absolute}.bottom-right,.gg-button-bar-right{bottom:0;position:absolute;right:0}h1,h2,h3,h4,h5,h6{color:#000;font:16px/24px arial,sans-serif normal}a{color:#15c;cursor:pointer;text-decoration:none}.current,.error{color:#dd4b39}a:hover{text-decoration:underline}.current{font-weight:700}.gray,.grey{color:#777}.secondary,.small{color:#777;font:11px/16px arial,sans-serif}.gg-button{background:-moz-linear-gradient(top,#f5f5f5,#f1f1f1);background:-ms-linear-gradient(top,#f5f5f5,#f1f1f1);background:-o-linear-gradient(top,#f5f5f5,#f1f1f1);background:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);background:linear-gradient(top,#f5f5f5,#f1f1f1);border:1px solid #dcdcdc;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;color:#333;cursor:default;font-family:arial,sans-serif;font-size:11px;font-weight:700;height:29px;line-height:27px;margin:0;min-width:72px;outline:0;text-align:center;white-space:nowrap;box-sizing:border-box;padding:0}.gg-button.action{background:-moz-linear-gradient(top,#4d90fe,#4787ed);background:-ms-linear-gradient(top,#4d90fe,#4787ed);background:-o-linear-gradient(top,#4d90fe,#4787ed);background:-webkit-linear-gradient(top,#4d90fe,#4787ed);background:linear-gradient(top,#4d90fe,#4787ed);border:1px solid #3079ed;color:#fff}.gg-button:hover{background:-moz-linear-gradient(top,#f8f8f8,#f1f1f1);background:-ms-linear-gradient(top,#f8f8f8,#f1f1f1);background:-o-linear-gradient(top,#f8f8f8,#f1f1f1);background:-webkit-linear-gradient(top,#f8f8f8,#f1f1f1);background:linear-gradient(top,#f8f8f8,#f1f1f1);border:1px solid #c6c6c6;color:#111;text-decoration:none}.gg-button.action:hover{background:-moz-linear-gradient(top,#4d90fe,#357ae8);background:-ms-linear-gradient(top,#4d90fe,#357ae8);background:-o-linear-gradient(top,#4d90fe,#357ae8);background:-webkit-linear-gradient(top,#4d90fe,#357ae8);background:linear-gradient(top,#4d90fe,#357ae8);border:1px solid #2f5bb7;color:#fff}.gg-button:focus{-moz-box-shadow:inset 0 0 0 1px #fff;-webkit-box-shadow:inset 0 0 0 1px #fff;box-shadow:inset 0 0 0 1px #fff}.gg-button:active{background:-moz-linear-gradient(top,#f8f8f8,#f1f1f1);background:-ms-linear-gradient(top,#f8f8f8,#f1f1f1);background:-o-linear-gradient(top,#f8f8f8,#f1f1f1);background:-webkit-linear-gradient(top,#f8f8f8,#f1f1f1);background:linear-gradient(top,#f8f8f8,#f1f1f1);border:1px solid #ccc;-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);box-shadow:inset 0 1px 2px rgba(0,0,0,.1);color:#111}.gg-button.action:active{background:#357ae8;border:1px solid #2f5bb7;-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.3);box-shadow:inset 0 1px 2px rgba(0,0,0,.3);color:#fff}.gg-button.disabled{background:#fff;border:1px solid #dcdcdc;-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;color:#333;opacity:.5}.gg-button.action.disabled{background:-moz-linear-gradient(top,#4d90fe,#4787ed);background:-ms-linear-gradient(top,#4d90fe,#4787ed);background:-o-linear-gradient(top,#4d90fe,#4787ed);background:-webkit-linear-gradient(top,#4d90fe,#4787ed);background:linear-gradient(top,#4d90fe,#4787ed);border:1px solid #3079ed;color:#fff}.gg-button+.gg-button{margin-left:12px}.form-group label + input,.form-group label + select,.form-group label + textarea {display: block;}input[type=checkbox]{-webkit-appearance:none;background:#fff;border:1px solid #c6c6c6;border-image:-ms-linear-gradient(top,#fff,#fff);-webkit-border-radius:1px;border-radius:1px;height:13px;left:1px;margin:2px 8px 0 0;outline:0;position:relative;top:1px;width:13px}input[type=checkbox]:hover{border:1px solid #b2b2b2;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.1);box-shadow:inset 0 1px 1px rgba(0,0,0,.1)}input[type=checkbox]:active{background-color:#ebebeb;border:1px solid #c6c6c6}input[type=checkbox]:focus{border:1px solid #4d90fe}input[type=checkbox]:checked:after{background:url(https://ssl.gstatic.com/ui/v1/menu/checkmark_2x.png) 0 0/21px no-repeat;content:'';display:block;height:21px;left:-5px;position:relative;top:-6px;width:21px}input[type=checkbox]:disabled{background-color:#fff;border:1px solid #e1e1e1;-webkit-box-shadow:none;box-shadow:none;opacity:.5}
+        #wrapper{padding:10px}#set-html{float:right}button{cursor:pointer}
+        .buttons::after{content:'';display:block;clear:both}.buttons {margin-top: 15px;}
+        .form-group {margin: 15px 0;}.form-group textarea, .form-group input {width:100%;}
+        .form-group.has-button input{display:inline-block;margin-right:0!important;width:calc(100% - 40px)}.form-group.has-button a{display:inline-block;padding:1px 5px;border:1px solid #DCDCDC;background:-webkit-linear-gradient(top,#f5f5f5,#f1f1f1);border-radius:2px;text-decoration:none;color:#000}
+    </style>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.11/vue.min.js"></script>
+</head>
+
+<body>
+
+
+    <div id="wrapper">
+        
+        <div v-if="isShowDocLoader">
+            <h3>Load content from Docs</h3>
+            <div class="form-group has-button">
+                <label for="docid">Docs ID</label>
+                <input id="docid" type="text" placeholder="Enter a Google Docs Id ..." v-model="docId">
+                <a href="javascript:;" v-on:click="getId">&gt;&middot;&lt;</a>
+            </div>            	
+            <div>
+                <input type="checkbox" id="docstyle" v-model="docStyle">
+                <label for="docstyle">With styles</label>
+            </div>
+            <div class="buttons">
+                <button class="gg-button" type="button" v-on:click="loadFromDocs">Load</button>
+                <button class="gg-button right" type="button" v-if="docId" v-on:click="viewDoc">View</button>
+            </div>
+        </div>
+        <div v-if="!isShowDocLoader">
+            <a href="javascript:;" v-on:click="showDocLoader">Show: Load content from Docs</a>
+        </div>
+
+        <div>
+            <hr>
+            <h3>HTML Editor</h3>
+            <div class="form-group">
+                <textarea id="html-editor"></textarea>
+            </div>
+    
+            <div class="buttons">
+                <button class="gg-button" type="button" v-on:click="getHTML">Get &#62;</button>    
+                <button class="gg-button" type="button" v-on:click="clearHTML">Clear</button>
+        
+                <button id="set-html" class="gg-button action" v-on:click="setHTML">&#60; Set</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/advlist/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/anchor/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/autolink/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/autoresize/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/autosave/plugin.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/bbcode/plugin.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/charmap/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/code/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/codesample/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/colorpicker/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/contextmenu/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/directionality/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/emoticons/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/fullpage/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/fullscreen/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/help/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/hr/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/image/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/imagetools/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/importcss/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/insertdatetime/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/legacyoutput/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/link/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/lists/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/media/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/nonbreaking/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/noneditable/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/pagebreak/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/paste/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/preview/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/print/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/save/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/searchreplace/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/spellchecker/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/tabfocus/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/table/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/template/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/textcolor/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/textpattern/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/toc/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/visualblocks/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/visualchars/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/plugins/wordcount/plugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.3/themes/modern/theme.min.js"></script>
+    
+    <script>
+
+        tinymce.init({
+            selector:'textarea',
+            entity_encoding: 'raw',
+            plugins: 'advlist anchor autolink autoresize autosave charmap code codesample colorpicker contextmenu directionality emoticons fullpage fullscreen help hr image imagetools importcss insertdatetime legacyoutput link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern toc visualblocks visualchars wordcount',
+            theme: 'modern',
+            toolbar: 'insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+        });
+
+
+    
+        var app = new Vue({
+            el: '#wrapper',
+            data: {
+                isShowDocLoader: true,
+
+                docId: '',
+                docStyle: false
+            },
+            methods: {
+
+                errorAlert: function (msg, el, title) {
+                    console.error(msg, el ? el: '');
+                    google.script.run.withSuccessHandler(function () {return}).withFailureHandler(this.errorAlert).error(msg, title);
+                },
+
+                getId: function () {
+                    var _this = this;
+                    google.script.run
+                        .withSuccessHandler(function (docId) {
+                            _this.docId = docId;
+                            return _this.loadFromDocs();
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get();
+                },
+
+                showDocLoader: function() {
+                    return this.isShowDocLoader = true;
+                },
+
+                clearHTML: function () {
+                    return tinymce.activeEditor.setContent('');
+                },
+
+                loadFromDocs: function () {
+                    if (!this.docId) return this.errorAlert('Please, enter a valid Google Docs Id.', null, 'Invalid input!');
+
+                    var _this = this;
+                    google.script.run
+                        .withSuccessHandler(function (html) {
+                            if(!html) return _this.errorAlert('Can not get the content, the Docs ID may be in wrong format');
+                            _this.isShowDocLoader = false;
+                            tinymce.activeEditor.setContent(html);
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .getDoc(this.docId, this.docStyle);
+
+                },
+
+                getHTML: function () {
+                    google.script.run
+                        .withSuccessHandler(function (data) {
+                            return tinymce.activeEditor.setContent(data);               
+                        })
+                        .withFailureHandler(this.errorAlert)
+                        .get();
+                },
+
+                setHTML: function () {
+                    var html = tinymce.activeEditor.getContent({format: 'html'});
+                    html = html.replace(/\\n/g,'').replace(/\n/g,'').replace('<!DOCTYPE html><html><head></head><body>','').replace('</body></html>','');
+
+                    google.script.run
+                        .withSuccessHandler(function () {return})
+                        .withFailureHandler(this.errorAlert)
+                        .set(html);
+
+                },
+                
+                viewDoc: function() {
+                    return window.open('https://docs.google.com/document/d/'+ this.docId +'/view');
+                }
+
+
+            }
+        });
+
+    </script>
+</body>
+
+</html>
