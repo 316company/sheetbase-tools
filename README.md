@@ -1,4 +1,7 @@
 # Sheetbase Tools
+
+[<img src="https://sheetbase.net/assets/images/logo.png" width="150">](https://sheetbase.net)
+
 Add-on for Google Spreadsheet, using Spreadsheet as Database. Edit JSON, HTML and more right from Spreadsheet.
 
 ## Introducing
@@ -16,7 +19,7 @@ You may send us reports if you need anything or find out something is wrong. Con
 
 Thank you very much!
 
-![https://www.patreon.com/lamnhan](https://cloakandmeeple.files.wordpress.com/2017/06/become_a_patron_button3x.png?w=200 "https://www.patreon.com/lamnhan")
+[<img src="https://cloakandmeeple.files.wordpress.com/2017/06/become_a_patron_button3x.png?w=200">](https://www.patreon.com/lamnhan)
 
 ## Install
 To use this tool, from Add-ons menu of a Spreadsheet, search for *Sheetbase Tools* then install.
