@@ -1,11 +1,11 @@
 # Sheetbase Tools
 
-[<img src="https://sheetbase.net/assets/images/logo.png" width="150">](https://sheetbase.net)
+[<img src="https://sheetbase.dev/assets/images/logo.png" width="150">](https://sheetbase.dev)
 
 Add-on for Google Spreadsheet, using Spreadsheet as Database. Edit JSON, HTML and more right from Spreadsheet.
 
 ## Introducing
-We create this tool to use Google Spreadsheet (GG SS) as data storage, a helper to use with [https://sheetbase.net](https://sheetbase.net).
+We create this tool to use Google Spreadsheet (GG SS) as data storage, a helper to use with [https://sheetbase.dev](https://sheetbase.dev).
 
 *Sheetbase Tools* contains:
 * **JSON Editor**: Edit JSON right from GG SS.
@@ -14,8 +14,7 @@ We create this tool to use Google Spreadsheet (GG SS) as data storage, a helper 
 * **Taxonomy Editor**: Load Taxonomies and modify Terms (categories, tags, ...) of posts.
 * **Hash Generator**: Create hashed strings, supporting MD5, SHA1, SHA256, SHA512.
 
-You may send us reports if you need anything or find out something is wrong. Contact us by [contact@sheetbase.net](contact@sheetbase.net).
-
+You may send us reports if you need anything or find out something is wrong. Contact us by [contact@sheetbase.dev](contact@sheetbase.dev).
 
 Thank you very much!
 
@@ -95,9 +94,6 @@ This project was blessed by many great tools from the community. We would like t
 * TinyMCE Editor: https://tinymce.com
 * VueJS: https://vuejs.org/
 * jsrsasign: https://kjur.github.io/jsrsasign/
-
-## Author
-Developed with <3 at [316 Company](https://316.company). You may check out more about our works at our website [https://316.company](https://316.company). Thanks! :)
 
 ## License
 MIT
